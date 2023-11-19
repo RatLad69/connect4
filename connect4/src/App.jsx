@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { DoAI } from "./AI";
-import { WinsOnBoard } from "./WinConditions"
+import { WinsOnBoard, CheckWinner } from "./WinConditions"
 
-const GAME_STATE = {
+export const GAME_STATE = {
     PLAYER_TURN: "player_turn",
     AI_TURN: "ai_turn",
     PLAYER_WIN: "player_win",
@@ -38,13 +38,13 @@ function Board() {
     const [gameState, setGameState] = useState(GAME_STATE.PLAYER_TURN);
 
     useEffect(() => {
-        // TODO: Check win conditions etc.
-        console.log("Wins found on board: " + WinsOnBoard(spaces, 0));
+        //console.log("Wins found on board: " + WinsOnBoard(spaces, 0));
 
         // AI TURN
         if (gameState === GAME_STATE.AI_TURN) {
             dropPiece(DoAI(spaces), 1);
-            setGameState(GAME_STATE.PLAYER_TURN); // TODO: add logic for game state
+            //setGameState(GAME_STATE.PLAYER_TURN); // TODO: add logic for game state
+            setGameState(CheckWinner(spaces, gameState));
         }
         
     }, [gameState, spaces]);
@@ -73,7 +73,7 @@ function Board() {
             return; // Not legal if column is full
         } else {
             dropPiece(columnIdx, 0); // Make the move if legal
-            setGameState(GAME_STATE.AI_TURN);
+            setGameState(CheckWinner(spaces, gameState)); // Check for win and update game state
         }
         //console.log(spaces[columnIdx]);
         //setPlayer((currentPlayer + 1) % 2);

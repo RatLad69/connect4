@@ -1,4 +1,5 @@
-import Board, { PLAYER_STYLES } from "./App";
+import Board, { PLAYER_STYLES, GAME_STATE } from "./App";
+import { getLegalMoves } from "./AI";
 
 const winInRows = (boardState, player, potential = false) => {
     // Checks for wins in rows. Returns number of wins found for player.
@@ -107,4 +108,38 @@ export const WinsOnBoard = (boardState, player, potential = false) => {
     wins += winInLeftDiags(boardState, player, potential);
     wins += winInRightDiags(boardState, player, potential);
     return wins;
+}
+
+export const CheckWinner = (boardState, currentGameState) => {
+    // Returns GAMESTATE.PLAYER_WIN if player has won, ...AI_WIN if AI has, ...DRAW if drawn, or else switches turn
+    console.log(currentGameState);
+    switch (currentGameState) {
+        case GAME_STATE.PLAYER_TURN:
+            if (WinsOnBoard(boardState, 0) > 0) {
+                return GAME_STATE.PLAYER_WIN;
+            } else if (getLegalMoves(boardState).length === 0) {
+                return GAME_STATE.DRAW;
+            } else {
+                return GAME_STATE.AI_TURN;
+            }
+        case GAME_STATE.AI_TURN:
+            if (WinsOnBoard(boardState, 1) > 0) {
+                return GAME_STATE.AI_WIN;
+            } else if (getLegalMoves(boardState).length === 0) {
+                return GAME_STATE.DRAW;
+            } else {
+                return GAME_STATE.PLAYER_TURN;
+            }
+        case GAME_STATE.PLAYER_WIN:
+            return GAME_STATE.PLAYER_WIN;
+        case GAME_STATE.AI_WIN:
+            return GAME_STATE.AI_WIN;
+        case GAME_STATE.DRAW:
+            return GAME_STATE.DRAW;
+        case GAME_STATE.ERROR:
+            return GAME_STATE.ERROR;
+        default:
+            console.log("Something wrong with updating game state.");
+            return GAME_STATE.ERROR;
+    }
 }
