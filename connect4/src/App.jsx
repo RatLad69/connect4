@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { DoAI } from "./AI";
+import { WinsOnBoard } from "./WinConditions"
 
 const GAME_STATE = {
     PLAYER_TURN: "player_turn",
@@ -8,6 +9,11 @@ const GAME_STATE = {
     AI_WIN: "ai_win",
     DRAW: "game_draw",
     ERROR: "game_error"
+};
+
+export const PLAYER_STYLES = {
+    HUMAN_STYLE: { backgroundColor: "#ff0000" },
+    AI_STYLE: { backgroundColor: "#000000" }
 };
 
 function Square({ playerStyle }) {
@@ -24,15 +30,16 @@ function Board() {
         Array(6).fill(null), Array(6).fill(null), Array(6).fill(null), Array(6).fill(null),
         Array(6).fill(null)]); //Array of 7 column arrays
 
-    const players = ["#ff0000", "#000000"];
-    const player1Style = { backgroundColor: players[0] };
-    const player2Style = { backgroundColor: players[1] };
+    //const players = ["#ff0000", "#000000"];
+    const player1Style = PLAYER_STYLES.HUMAN_STYLE;
+    const player2Style = PLAYER_STYLES.AI_STYLE;
     const playerStyles = [player1Style, player2Style];
     //const [currentPlayer, setPlayer] = useState(0);
     const [gameState, setGameState] = useState(GAME_STATE.PLAYER_TURN);
 
     useEffect(() => {
         // TODO: Check win conditions etc.
+        console.log("Wins found on board: " + WinsOnBoard(spaces, 0));
 
         // AI TURN
         if (gameState === GAME_STATE.AI_TURN) {

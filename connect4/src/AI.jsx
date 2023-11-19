@@ -10,9 +10,21 @@ const getLegalMoves = (boardState) => {
     return legalMoves;
 };
 
-export const DoAI = (boardState) => {
-    // Returns the column index of the AI's selected move
+const randomAI = (boardState) => {
+    // Returns a random column index of a legal move
     const legalMoves = getLegalMoves(boardState);
     let selectedMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
+    return selectedMove;
+}
+
+const leftAI = (boardState) => {
+    // Returns the left-most legal move
+    const legalMoves = getLegalMoves(boardState);
+    return legalMoves[0];
+}
+
+export const DoAI = (boardState) => {
+    // Returns the column index of the AI's selected move
+    let selectedMove = leftAI(boardState);
     return selectedMove;
 };
