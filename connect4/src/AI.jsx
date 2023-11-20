@@ -100,7 +100,7 @@ const chooseMiniMove = (boardState) => {
     let bestCandidateIdx = 0;
     let bestEval = Infinity;
     for (let i = 0; i < candidates.length; i++) {
-        let candidateEval = minimax(thinkMove(tmpBoardState, candidates[i], 1), 6, -Infinity, Infinity, false) + (Math.random() * 0.5);
+        let candidateEval = minimax(thinkMove(tmpBoardState, candidates[i], 1), 6, -Infinity, Infinity, true) + (Math.random() * 0.5);
         if (candidateEval < bestEval) {
             bestCandidateIdx = i;
             bestEval = candidateEval;
