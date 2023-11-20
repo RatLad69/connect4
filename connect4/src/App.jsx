@@ -43,7 +43,6 @@ function Board() {
         // AI TURN
         if (gameState === GAME_STATE.AI_TURN) {
             dropPiece(DoAI(spaces), 1);
-            //setGameState(GAME_STATE.PLAYER_TURN); // TODO: add logic for game state
             setGameState(CheckWinner(spaces, gameState));
         }
         
@@ -79,8 +78,28 @@ function Board() {
         //setPlayer((currentPlayer + 1) % 2);
     }
 
+    function stateDisplay(state) {
+        switch (state) {
+            case GAME_STATE.PLAYER_TURN:
+                return "Your turn";
+            case GAME_STATE.AI_TURN:
+                return "AI thinking";
+            case GAME_STATE.PLAYER_WIN:
+                return "A winner is you. Your reward: http://bit.ly/3MQwDP8";
+            case GAME_STATE.AI_WIN:
+                return "DEFEAT! Recharge with a frosty rat milk";
+            case GAME_STATE.DRAW:
+                return "Draw";
+            case GAME_STATE.ERROR:
+                return "ERROR";
+            default:
+                return "STRANGE ERROR";
+        }
+    }
+
     return (
         <>
+            <div className="status">{stateDisplay(gameState)}</div>
             <div className="board-row">
                 <Square playerStyle={spaces[0][5]} />
                 <Square playerStyle={spaces[1][5]} />
