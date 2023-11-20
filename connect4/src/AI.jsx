@@ -107,8 +107,8 @@ const chooseMiniMove = (boardState) => {
         }
         console.log("Col: " + candidates[i] + " -- " + candidateEval);
     }
-    console.log("Choosing: " + bestCandidateIdx);
-    return bestCandidateIdx;
+    console.log("Choosing: " + candidates[bestCandidateIdx]);
+    return candidates[bestCandidateIdx];
 }
 
 export const DoAI = (boardState) => {
