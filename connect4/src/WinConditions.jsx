@@ -102,6 +102,7 @@ const winInLeftDiags = (boardState, player, potential = false) => {
 export const WinsOnBoard = (boardState, player, potential = false) => {
     // Counts the number of wins found on the entire board
     // If potential === true, returns number of possible wins on the entire board
+    
     let wins = 0;
     wins += winInRows(boardState, player, potential);
     wins += winInCols(boardState, player, potential);
@@ -112,7 +113,7 @@ export const WinsOnBoard = (boardState, player, potential = false) => {
 
 export const CheckWinner = (boardState, currentGameState) => {
     // Returns GAMESTATE.PLAYER_WIN if player has won, ...AI_WIN if AI has, ...DRAW if drawn, or else switches turn
-    console.log(currentGameState);
+    
     switch (currentGameState) {
         case GAME_STATE.PLAYER_TURN:
             if (WinsOnBoard(boardState, 0) > 0) {

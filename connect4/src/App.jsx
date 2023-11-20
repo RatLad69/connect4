@@ -12,9 +12,11 @@ export const GAME_STATE = {
 };
 
 export const PLAYER_STYLES = {
-    HUMAN_STYLE: { backgroundColor: "#ff0000" },
-    AI_STYLE: { backgroundColor: "#000000" }
+    HUMAN_STYLE: 0, //{ backgroundColor: "#ff0000" },
+    AI_STYLE: 1 //{ backgroundColor: "#000000" }
 };
+
+const COLORS = [{ backgroundColor: "#ff0000" }, { backgroundColor: "#000000" }];
 
 function Square({ playerStyle }) {
     return <button className="square" style={playerStyle} ></button>
@@ -41,16 +43,19 @@ function Board() {
         //console.log("Wins found on board: " + WinsOnBoard(spaces, 0));
 
         // AI TURN
+        const calculationSpaces = [];
+        for (let i = 0; i < spaces.length; i++) {
+            calculationSpaces.push(spaces[i].slice());
+        }
         if (gameState === GAME_STATE.AI_TURN) {
-            dropPiece(DoAI(spaces), 1);
-            setGameState(CheckWinner(spaces, gameState));
+            dropPiece(DoAI(calculationSpaces), 1);
         }
         
     }, [gameState, spaces]);
 
     function dropPiece(columnIdx, player) {
-        const newSpaces = spaces.slice();
-
+        //let newSpaces = JSON.parse(JSON.stringify(spaces));
+        let newSpaces = structuredClone(spaces);
         for (let i = 0; i < newSpaces[columnIdx].length; i++) {
             if (newSpaces[columnIdx][i] === null) {
                 newSpaces[columnIdx][i] = playerStyles[player];
@@ -58,6 +63,7 @@ function Board() {
             }
         }
         setSpaces(newSpaces);
+        setGameState(CheckWinner(newSpaces, gameState));
     }
 
     function playerClick(columnIdx) {
@@ -72,7 +78,6 @@ function Board() {
             return; // Not legal if column is full
         } else {
             dropPiece(columnIdx, 0); // Make the move if legal
-            setGameState(CheckWinner(spaces, gameState)); // Check for win and update game state
         }
         //console.log(spaces[columnIdx]);
         //setPlayer((currentPlayer + 1) % 2);
@@ -101,58 +106,58 @@ function Board() {
         <>
             <div className="status">{stateDisplay(gameState)}</div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][5]} />
-                <Square playerStyle={spaces[1][5]} />
-                <Square playerStyle={spaces[2][5]} />
-                <Square playerStyle={spaces[3][5]} />
-                <Square playerStyle={spaces[4][5]} />
-                <Square playerStyle={spaces[5][5]} />
-                <Square playerStyle={spaces[6][5]} />
+                <Square playerStyle={COLORS[spaces[0][5]]} />
+                <Square playerStyle={COLORS[spaces[1][5]]} />
+                <Square playerStyle={COLORS[spaces[2][5]]} />
+                <Square playerStyle={COLORS[spaces[3][5]]} />
+                <Square playerStyle={COLORS[spaces[4][5]]} />
+                <Square playerStyle={COLORS[spaces[5][5]]} />
+                <Square playerStyle={COLORS[spaces[6][5]]} />
             </div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][4]} />
-                <Square playerStyle={spaces[1][4]} />
-                <Square playerStyle={spaces[2][4]} />
-                <Square playerStyle={spaces[3][4]} />
-                <Square playerStyle={spaces[4][4]} />
-                <Square playerStyle={spaces[5][4]} />
-                <Square playerStyle={spaces[6][4]} />
+                <Square playerStyle={COLORS[spaces[0][4]]} />
+                <Square playerStyle={COLORS[spaces[1][4]]} />
+                <Square playerStyle={COLORS[spaces[2][4]]} />
+                <Square playerStyle={COLORS[spaces[3][4]]} />
+                <Square playerStyle={COLORS[spaces[4][4]]} />
+                <Square playerStyle={COLORS[spaces[5][4]]} />
+                <Square playerStyle={COLORS[spaces[6][4]]} />
             </div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][3]} />
-                <Square playerStyle={spaces[1][3]} />
-                <Square playerStyle={spaces[2][3]} />
-                <Square playerStyle={spaces[3][3]} />
-                <Square playerStyle={spaces[4][3]} />
-                <Square playerStyle={spaces[5][3]} />
-                <Square playerStyle={spaces[6][3]} />
+                <Square playerStyle={COLORS[spaces[0][3]]} />
+                <Square playerStyle={COLORS[spaces[1][3]]} />
+                <Square playerStyle={COLORS[spaces[2][3]]} />
+                <Square playerStyle={COLORS[spaces[3][3]]} />
+                <Square playerStyle={COLORS[spaces[4][3]]} />
+                <Square playerStyle={COLORS[spaces[5][3]]} />
+                <Square playerStyle={COLORS[spaces[6][3]]} />
             </div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][2]} />
-                <Square playerStyle={spaces[1][2]} />
-                <Square playerStyle={spaces[2][2]} />
-                <Square playerStyle={spaces[3][2]} />
-                <Square playerStyle={spaces[4][2]} />
-                <Square playerStyle={spaces[5][2]} />
-                <Square playerStyle={spaces[6][2]} />
+                <Square playerStyle={COLORS[spaces[0][2]]} />
+                <Square playerStyle={COLORS[spaces[1][2]]} />
+                <Square playerStyle={COLORS[spaces[2][2]]} />
+                <Square playerStyle={COLORS[spaces[3][2]]} />
+                <Square playerStyle={COLORS[spaces[4][2]]} />
+                <Square playerStyle={COLORS[spaces[5][2]]} />
+                <Square playerStyle={COLORS[spaces[6][2]]} />
             </div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][1]} />
-                <Square playerStyle={spaces[1][1]} />
-                <Square playerStyle={spaces[2][1]} />
-                <Square playerStyle={spaces[3][1]} />
-                <Square playerStyle={spaces[4][1]} />
-                <Square playerStyle={spaces[5][1]} />
-                <Square playerStyle={spaces[6][1]} />
+                <Square playerStyle={COLORS[spaces[0][1]]} />
+                <Square playerStyle={COLORS[spaces[1][1]]} />
+                <Square playerStyle={COLORS[spaces[2][1]]} />
+                <Square playerStyle={COLORS[spaces[3][1]]} />
+                <Square playerStyle={COLORS[spaces[4][1]]} />
+                <Square playerStyle={COLORS[spaces[5][1]]} />
+                <Square playerStyle={COLORS[spaces[6][1]]} />
             </div>
             <div className="board-row">
-                <Square playerStyle={spaces[0][0]} />
-                <Square playerStyle={spaces[1][0]} />
-                <Square playerStyle={spaces[2][0]} />
-                <Square playerStyle={spaces[3][0]} />
-                <Square playerStyle={spaces[4][0]} />
-                <Square playerStyle={spaces[5][0]} />
-                <Square playerStyle={spaces[6][0]} />
+                <Square playerStyle={COLORS[spaces[0][0]]} />
+                <Square playerStyle={COLORS[spaces[1][0]]} />
+                <Square playerStyle={COLORS[spaces[2][0]]} />
+                <Square playerStyle={COLORS[spaces[3][0]]} />
+                <Square playerStyle={COLORS[spaces[4][0]]} />
+                <Square playerStyle={COLORS[spaces[5][0]]} />
+                <Square playerStyle={COLORS[spaces[6][0]]} />
             </div>
             <div className="board-row">
                 <DropButton dropClick={() => playerClick(0)} />
